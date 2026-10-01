@@ -26,6 +26,8 @@ select{font:inherit;color:var(--ink);background:var(--fill);border:0;border-radi
 .chips{display:flex;flex-wrap:wrap;gap:6px}.chip.tg.on{background:var(--acc);color:#fff}.chip.tg{border:0;display:inline-flex;align-items:center;gap:6px;cursor:pointer;background:var(--fill);box-shadow:none;padding:6px 12px;font-size:.85rem}
 .dot{width:12px;height:12px;border-radius:50%;box-shadow:inset 0 0 0 1px var(--line)}
 .ng{display:grid;grid-template-columns:repeat(10,1fr);gap:4px}.ng button{padding:7px 0;border-radius:8px;background:var(--fill);font-size:.75rem;font-variant-numeric:tabular-nums}
+.tabs{margin-bottom:16px}.tabs button{padding:8px 12px}.pick{cursor:pointer}.cb{width:22px;height:22px;margin:0;accent-color:var(--acc);cursor:pointer}
+.rng{display:grid;grid-template-columns:1fr 1fr;gap:12px}.num{display:block;width:100%;box-sizing:border-box;border:0;border-radius:10px;background:var(--fill);padding:11px 10px;font-size:1.05rem;font-weight:600;text-align:center;font-variant-numeric:tabular-nums;-moz-appearance:textfield}.num::-webkit-inner-spin-button,.num::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
 .add{display:flex;gap:8px;margin-top:12px}.add input{min-width:0;flex:1;border:0;border-radius:10px;background:var(--fill);padding:8px 10px;font-size:.95rem}.add button{background:var(--acc);color:#fff;border-radius:10px;padding:0 16px;font-weight:600}
 .lang{display:flex;align-items:center;gap:6px;background:var(--fill);border-radius:10px;padding:0 6px 0 10px}.lang select{appearance:none;-webkit-appearance:none;background:transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none' stroke='%2386868b' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1 1l4 4 4-4'/%3E%3C/svg%3E") no-repeat right 6px center;padding:8px 22px 8px 2px;font-size:.9rem;font-weight:500;cursor:pointer}.lang select option{color:#1d1d1f}
 .rh{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}.row .rh .lbl{margin:0}
@@ -108,14 +110,26 @@ select{font:inherit;color:var(--ink);background:var(--fill);border:0;border-radi
 </div>
 
 <div id="set" class="hide">
-  <div class="bar"><button class="back" onclick="closeSet()">‹ <span data-i="menu"></span></button></div>
+  <div class="bar"><button class="back" onclick="closeSet()">‹ <span data-i="menu"></span></button><button class="link" onclick="resetSet()" data-i="reset"></button></div>
   <h1 data-i="h_set"></h1>
-  <div class="group">
-    <div class="row"><span class="lbl" data-i="colors"></span><div class="chips" id="cl"></div></div>
-    <div class="row"><span class="lbl" data-i="numbers"></span><div class="ng" id="nl"></div>
+  <div class="seg tabs" id="stabs"><button data-tab="colors" data-i="colors"></button><button data-tab="numbers" data-i="numbers"></button></div>
+
+  <div class="group" id="p_colors">
+    <div class="row"><div class="chips" id="cl"></div></div>
+  </div>
+
+  <div class="group hide" id="p_numbers">
+    <label class="row inline pick"><span class="lbl" data-i="manual"></span><input type="checkbox" class="cb" id="mn"></label>
+    <div class="row" id="rangebox">
+      <div class="rng">
+        <div><span class="lbl" data-i="from"></span><input class="num" id="rf" type="number" inputmode="numeric" min="0" max="999" onchange="setRange('f')"></div>
+        <div><span class="lbl" data-i="to"></span><input class="num" id="rt" type="number" inputmode="numeric" min="0" max="999" onchange="setRange('t')"></div>
+      </div>
+      <div class="hint" id="rcount"></div>
+    </div>
+    <div class="row hide" id="manualbox"><div class="ng" id="nl"></div>
       <div class="add"><input id="nn" type="number" min="0" max="999" placeholder="0–999" onkeydown="if(event.key==='Enter')addNum()"><button onclick="addNum()" data-i="add"></button></div></div>
   </div>
-  <button class="secondary" style="margin-top:16px" onclick="resetSet()" data-i="reset"></button>
 </div>
 
 <div id="game" class="hide">
@@ -178,7 +192,7 @@ h_set:["Customize","Personnaliser","Personalizar"],
 h_hide:["Hide options","Masquer les choix","Ocultar opciones"],
 several:["Choose several","Plusieurs choix","Elegir varios"],
 t_hide:["Choices stay hidden until you tap Show","Les choix restent masqués jusqu'à ce que tu les affiches","Las opciones se ocultan hasta que las muestres"],
-add:["Add","Ajouter","Añadir"],name:["name","nom","nombre"],
+add:["Add","Ajouter","Añadir"],manual:["Manual selection","Sélection manuelle","Selección manual"],from:["From","De","Desde"],to:["To","À","Hasta"],name:["name","nom","nombre"],
 reset:["Reset to default","Réinitialiser","Restablecer"],
 t_colors:["Name the color of a swatch or object","Nomme la couleur d'un aplat ou d'un objet","Nombra el color de una muestra u objeto"],
 t_numbers:["Match a number to its English name","Associe un nombre à son nom anglais","Asocia un número con su nombre en inglés"],
@@ -187,6 +201,9 @@ t_type:["Type the answer yourself","Écris la réponse toi-même","Escribe la re
 t_easy:["4 choices, no timer by default","4 choix, sans minuteur par défaut","4 opciones, sin temporizador por defecto"],
 t_medium:["6 choices, 20 s timer by default","6 choix, minuteur de 20 s par défaut","6 opciones, 20 s por defecto"],
 t_hard:["8 choices, 10 s timer by default","8 choix, minuteur de 10 s par défaut","8 opciones, 10 s por defecto"],
+t_easy_t:["No timer by default","Sans minuteur par défaut","Sin temporizador por defecto"],
+t_medium_t:["20 s timer by default","Minuteur de 20 s par défaut","20 s por defecto"],
+t_hard_t:["10 s timer by default","Minuteur de 10 s par défaut","10 s por defecto"],
 t_tm:["Seconds per question, 0 for no limit","Secondes par question, 0 pour illimité","Segundos por pregunta, 0 sin límite"],
 t_nq:["Questions per round","Questions par partie","Preguntas por ronda"]};
 const LI={en:0,fr:1,es:2};
@@ -196,9 +213,10 @@ let lg=1;
 const $=id=>document.getElementById(id);
 const t=k=>T[k][lg];
 const maxQ=()=>pool().length;
+const numList=()=>manual?[...nums]:Array.from({length:rng[1]-rng[0]+1},(_,k)=>rng[0]+k);
 const pool=()=>{const p=[];
   if(S.ct.includes("colors"))cols.filter(c=>c.on).forEach(c=>{p.push({ans:c,type:"swatch"});(O[c.n]||[]).forEach(e=>p.push({ans:c,type:"object",e}))});
-  if(S.ct.includes("numbers"))[...nums].forEach(v=>p.push({type:"num",v,ans:{n:word(v)}}));
+  if(S.ct.includes("numbers"))numList().forEach(v=>p.push({type:"num",v,ans:{n:word(v)}}));
   return p};
 
 function sync(){
@@ -242,9 +260,9 @@ function stepTm(d){S.tm=Math.min(120,Math.max(0,S.tm+d));sync()}
 const DEFC=[["red","#e53935"],["orange","#fb8c00"],["yellow","#fdd835"],["green","#2e9e4f"],["blue","#1e66d0"],["purple","#8e44ad"],["pink","#f48fb1"],["brown","#8d5a3b"],["white","#ffffff"],["black","#111111"],
 ["gray","#8e8e93"],["magenta","#f012be"],["cyan","#12d6ee"],["turquoise","#30d5c8"],["teal","#0f8b8d"],["navy","#1f2a5c"],["maroon","#7a1f1f"],["gold","#d4af37"],["silver","#c0c0c0"],["beige","#e8dcc2"],["lime","#9ede2f"],["violet","#9d5cf0"],["indigo","#3d2b8f"],["coral","#ff7f50"],["salmon","#fa8072"],["lavender","#b9a6e8"],["olive","#7d7f1f"],["peach","#ffb98a"],["burgundy","#8c1337"],["mint","#a7e8c8"]].map(a=>({n:a[0],h:a[1]}));
 const allN=()=>new Set([...Array(100).keys()]);
-let cols=DEFC.map((c,k)=>({...c,on:k<10})),nums=allN();
-try{const d=JSON.parse(localStorage.getItem("cg2")||"null");if(d){cols.forEach(c=>c.on=d.on.includes(c.n));nums=new Set(d.nums)}}catch(e){}
-const save=()=>{try{localStorage.setItem("cg2",JSON.stringify({on:cols.filter(c=>c.on).map(c=>c.n),nums:[...nums]}))}catch(e){}};
+let cols=DEFC.map((c,k)=>({...c,on:k<10})),nums=allN(),rng=[0,99],manual=false,stab="colors";
+try{const d=JSON.parse(localStorage.getItem("cg2")||"null");if(d){cols.forEach(c=>c.on=d.on.includes(c.n));nums=new Set(d.nums);if(Array.isArray(d.rng)&&d.rng.length===2)rng=d.rng;manual=!!d.manual}}catch(e){}
+const save=()=>{try{localStorage.setItem("cg2",JSON.stringify({on:cols.filter(c=>c.on).map(c=>c.n),nums:[...nums],rng,manual}))}catch(e){}};
 const O={red:["🍎","🍓","🍅","🍒"],orange:["🍊","🥕","🎃","🏀"],yellow:["🍌","🍋","⭐","🌻"],green:["🐸","🥒","🥦","🍀"],blue:["🫐","🐳","🔵","🦋"],purple:["🍇","🍆","🟣"],pink:["🎀","🐷","🌸","🦩"],brown:["🐻","🍫","🥔","🤎"],white:["⛄","🥚","🤍","🥛"],black:["🖤","⚫","🎩","🎱"],gray:["🐘","🐺","🪨","🐭"],gold:["🥇","👑","🏆","🪙"],silver:["🥈"],olive:["🫒"],peach:["🍑"]};
 const ONES=["zero","one","two","three","four","five","six","seven","eight","nine","ten","eleven","twelve","thirteen","fourteen","fifteen","sixteen","seventeen","eighteen","nineteen"];
 const TENS=["","","twenty","thirty","forty","fifty","sixty","seventy","eighty","ninety"];
@@ -368,13 +386,30 @@ function next(){
   else u.forEach(x=>{const c=document.createElement("span");c.className="chip";c.textContent=x;m.appendChild(c)});
 }
 function renderSet(){
+  document.querySelectorAll("#stabs button").forEach(b=>{const on=b.dataset.tab===stab;b.classList.toggle("on",on);b.setAttribute("aria-pressed",on)});
+  $("p_colors").classList.toggle("hide",stab!=="colors");
+  $("p_numbers").classList.toggle("hide",stab!=="numbers");
   const cl=$("cl");cl.innerHTML="";
   cols.forEach((c,k)=>{const b=document.createElement("button"),d=document.createElement("i");
     b.className="chip tg"+(c.on?" on":"");b.dataset.k=k;d.className="dot";d.style.background=c.h;b.append(d,c.n);
     cl.appendChild(b)});
+  $("mn").checked=manual;
+  $("rangebox").classList.toggle("hide",manual);
+  $("manualbox").classList.toggle("hide",!manual);
+  $("rf").value=rng[0];$("rt").value=rng[1];
+  $("rcount").textContent=(rng[1]-rng[0]+1)+" "+t("numbers").toLowerCase();
   const nl=$("nl");nl.innerHTML="";
-  [...Array(100).keys(),...[...nums].filter(v=>v>=100).sort((a,b)=>a-b)].forEach(v=>{
+  if(manual)[...Array(100).keys(),...[...nums].filter(v=>v>=100).sort((a,b)=>a-b)].forEach(v=>{
     const b=document.createElement("button");b.textContent=v;b.dataset.v=v;if(nums.has(v))b.className="on";nl.appendChild(b)});
+}
+$("stabs").onclick=e=>{const b=e.target.closest("button[data-tab]");if(!b)return;stab=b.dataset.tab;renderSet()};
+$("mn").onchange=()=>{if($("mn").checked)nums=new Set(numList());manual=$("mn").checked;save();renderSet()};
+function setRange(w){
+  const cl=v=>Math.max(0,Math.min(999,v));
+  let a=parseInt($("rf").value),b=parseInt($("rt").value);
+  a=isNaN(a)?rng[0]:cl(a);b=isNaN(b)?rng[1]:cl(b);
+  if(a>b){if(w==="f")b=a;else a=b}
+  rng=[a,b];save();renderSet();
 }
 $("cl").onclick=e=>{const b=e.target.closest("button");if(!b)return;const k=+b.dataset.k,c=cols[k],n=cols.filter(x=>x.on).length;
   if(!c.on)c.on=true;else if(n>2)c.on=false;
@@ -382,14 +417,15 @@ $("cl").onclick=e=>{const b=e.target.closest("button");if(!b)return;const k=+b.d
 $("nl").onclick=e=>{const b=e.target.closest("button");if(!b)return;const v=+b.dataset.v;
   if(nums.has(v)){if(nums.size>1)nums.delete(v)}else nums.add(v);save();renderSet()};
 function addNum(){const v=parseInt($("nn").value);if(!(v>=0&&v<=999))return;nums.add(v);$("nn").value="";save();renderSet()}
-function resetSet(){cols.forEach((c,k)=>c.on=k<10);nums=allN();save();renderSet()}
+function resetSet(){cols.forEach((c,k)=>c.on=k<10);nums=allN();rng=[0,99];manual=false;save();renderSet()}
 function openSet(){$("menu").classList.add("hide");$("set").classList.remove("hide");renderSet()}
 function closeSet(){$("set").classList.add("hide");$("menu").classList.remove("hide");sync()}
 const tip=$("tip");
 function showTip(e){
   const el=e.target.closest&&e.target.closest("[data-tip]");
   if(!el){tip.classList.add("hide");return}
-  tip.textContent=t("t_"+el.dataset.tip);tip.classList.remove("hide");
+  const k=el.dataset.tip,typeOnly=S.gm.length===1&&S.gm[0]==="type";
+  tip.textContent=t("t_"+k+(typeOnly&&OPTS[k]?"_t":""));tip.classList.remove("hide");
   const r=el.getBoundingClientRect(),w=tip.offsetWidth,h=tip.offsetHeight;
   tip.style.left=Math.max(8,Math.min(innerWidth-w-8,r.left+r.width/2-w/2))+"px";
   tip.style.top=(r.top-h-8<8?r.bottom+8:r.top-h-8)+"px";
