@@ -16,7 +16,7 @@ main{max-width:480px;margin:0 auto;padding:20px 20px 36px}
 button,input{font:inherit;color:inherit}
 button{cursor:pointer;border:0;background:none;-webkit-tap-highlight-color:transparent}
 :focus-visible{outline:3px solid color-mix(in srgb,var(--acc) 55%,transparent);outline-offset:2px}
-h1{font-size:clamp(1.6rem,8vw,2.5rem);line-height:1.2;white-space:nowrap;font-weight:700;letter-spacing:-.03em;margin:22px 0 22px}
+h1{font-size:clamp(1.6rem,8vw,2.5rem);line-height:1.2;font-weight:700;letter-spacing:-.03em;margin:22px 0 22px}
 
 .seg{display:flex;background:var(--fill);border-radius:10px;padding:2px;gap:2px}
 .seg button{flex:1;padding:7px 12px;border-radius:8px;font-size:.9rem;font-weight:500;color:var(--mut);transition:background .2s,color .2s}
@@ -26,7 +26,7 @@ select{font:inherit;color:var(--ink);background:var(--fill);border:0;border-radi
 .chips{display:flex;flex-wrap:wrap;gap:6px}.chip.tg.on{background:var(--acc);color:#fff}.chip.tg{border:0;display:inline-flex;align-items:center;gap:6px;cursor:pointer;background:var(--fill);box-shadow:none;padding:6px 12px;font-size:.85rem}
 .dot{width:12px;height:12px;border-radius:50%;box-shadow:inset 0 0 0 1px var(--line)}
 .ng{display:grid;grid-template-columns:repeat(10,1fr);gap:4px}.ng button{padding:7px 0;border-radius:8px;background:var(--fill);font-size:.75rem;font-variant-numeric:tabular-nums}
-.tabs{margin-bottom:16px}.tabs button{padding:8px 12px}.pick{cursor:pointer}.cb{width:22px;height:22px;margin:0;accent-color:var(--acc);cursor:pointer}
+.seg[data-multi=ct] button{padding:7px 4px;font-size:.85rem}.tabs{margin-bottom:16px}.tabs button{padding:8px 12px}.pick{cursor:pointer}.cb{width:22px;height:22px;margin:0;accent-color:var(--acc);cursor:pointer}
 .rng{display:grid;grid-template-columns:1fr 1fr;gap:12px}.num{display:block;width:100%;box-sizing:border-box;border:0;border-radius:10px;background:var(--fill);padding:11px 10px;font-size:1.05rem;font-weight:600;text-align:center;font-variant-numeric:tabular-nums;-moz-appearance:textfield}.num::-webkit-inner-spin-button,.num::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
 .add{display:flex;gap:8px;margin-top:12px}.add input{min-width:0;flex:1;border:0;border-radius:10px;background:var(--fill);padding:8px 10px;font-size:.95rem}.add button{background:var(--acc);color:#fff;border-radius:10px;padding:0 16px;font-weight:600}
 .lang{display:flex;align-items:center;gap:6px;background:var(--fill);border-radius:10px;padding:0 6px 0 10px}.lang select{appearance:none;-webkit-appearance:none;background:transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none' stroke='%2386868b' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1 1l4 4 4-4'/%3E%3C/svg%3E") no-repeat right 6px center;padding:8px 22px 8px 2px;font-size:.9rem;font-weight:500;cursor:pointer}.lang select option{color:#1d1d1f}
@@ -59,7 +59,8 @@ select{font:inherit;color:var(--ink);background:var(--fill);border:0;border-radi
 .tw{height:4px;border-radius:2px;background:var(--fill);margin-top:8px;overflow:hidden}
 .stage{height:240px;border-radius:28px;display:flex;align-items:center;justify-content:center;font-size:110px;font-weight:700;letter-spacing:-.03em;background:var(--card);box-shadow:var(--sh),inset 0 0 0 1px var(--line);margin:22px 0}
 .stage.pop{animation:pop .35s}
-.q{font-size:1.15rem;font-weight:600;margin-bottom:14px;text-align:center}
+.q{font-size:1.15rem;font-weight:600;margin-bottom:6px;text-align:center}
+.ins{min-height:1.4em;margin-bottom:10px;font-size:.85rem;line-height:1.3rem;color:var(--mut);text-align:center}
 .opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .opt{min-height:58px;padding:17px 8px;border-radius:16px;background:var(--card);box-shadow:var(--sh);font-size:1.15rem;font-weight:500;transition:transform .15s,background .2s}
 .opt:active:not(:disabled){transform:scale(.97)}
@@ -82,6 +83,15 @@ select{font:inherit;color:var(--ink);background:var(--fill);border:0;border-radi
 @keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 @media (max-width:420px){.stage{height:200px;font-size:88px}}
+.stage.txt{font-size:clamp(34px,11vw,56px);text-align:center;padding:0 12px}
+.en{display:block;font-size:.72em;font-weight:400;letter-spacing:0;line-height:1.25;color:var(--mut);margin-top:1px}
+.seg button.on .en,.primary .en{color:inherit;opacity:.7}
+h1 .en{font-size:.38em;font-weight:500;margin-top:4px}
+.hint .en{display:inline;margin-left:6px;font-size:1em}
+.q .en{font-size:.72em}
+.ins .en{font-size:.88em;margin-top:2px}
+.ins.f{min-height:2.8em}
+#tip .en{color:#a1a1a6;margin-top:3px;font-size:.9em}
 </style>
 </head>
 <body>
@@ -93,7 +103,7 @@ select{font:inherit;color:var(--ink);background:var(--fill);border:0;border-radi
 
   <div class="group">
     <div class="row"><div class="rh"><span class="lbl" data-i="h_ct"></span><label class="chk"><input type="checkbox" data-sev="ct"><span data-i="several"></span></label></div>
-      <div class="seg" data-multi="ct"><button data-v="colors" data-i="colors" data-tip="colors"></button><button data-v="numbers" data-i="numbers" data-tip="numbers"></button></div></div>
+      <div class="seg" data-multi="ct"><button data-v="colors" data-i="colors" data-tip="colors"></button><button data-v="numbers" data-i="numbers" data-tip="numbers"></button><button data-v="ordinals" data-i="ordinals" data-tip="ordinals"></button><button data-v="weekdays" data-i="weekdays" data-tip="weekdays"></button></div></div>
     <div class="row"><div class="rh"><span class="lbl" data-i="h_gm"></span><label class="chk"><input type="checkbox" data-sev="gm"><span data-i="several"></span></label></div>
       <div class="seg" data-multi="gm"><button data-v="choice" data-i="m_choice" data-tip="choice"></button><button data-v="type" data-i="m_type" data-tip="type"></button></div></div>
     <div class="row inline"><span class="lbl" data-i="h_hide"></span><button class="sw" id="hd" role="switch" aria-checked="false" data-tip="hide" aria-label="Hide options" onclick="S.hide=!S.hide;sync()"></button></div>
@@ -112,10 +122,20 @@ select{font:inherit;color:var(--ink);background:var(--fill);border:0;border-radi
 <div id="set" class="hide">
   <div class="bar"><button class="back" onclick="closeSet()">‹ <span data-i="menu"></span></button><button class="link" onclick="resetSet()" data-i="reset"></button></div>
   <h1 data-i="h_set"></h1>
-  <div class="seg tabs" id="stabs"><button data-tab="colors" data-i="colors"></button><button data-tab="numbers" data-i="numbers"></button></div>
+  <div class="seg tabs" id="stabs"><button data-tab="colors" data-i="colors"></button><button data-tab="numbers" data-i="numbers"></button><button data-tab="ordinals" data-i="ordinals"></button></div>
 
   <div class="group" id="p_colors">
     <div class="row"><div class="chips" id="cl"></div></div>
+  </div>
+
+  <div class="group hide" id="p_ordinals">
+    <div class="row">
+      <div class="rng">
+        <div><span class="lbl" data-i="from"></span><input class="num" id="of" type="number" inputmode="numeric" min="1" max="999" onchange="setOrd('f')"></div>
+        <div><span class="lbl" data-i="to"></span><input class="num" id="ot" type="number" inputmode="numeric" min="1" max="999" onchange="setOrd('t')"></div>
+      </div>
+      <div class="hint" id="ocount"></div>
+    </div>
   </div>
 
   <div class="group hide" id="p_numbers">
@@ -139,6 +159,7 @@ select{font:inherit;color:var(--ink);background:var(--fill);border:0;border-radi
   <div class="bar" style="margin:8px 0 0"><span id="prog"></span><span id="tt"></span></div>
   <div class="stage" id="stage"></div>
   <div class="q" id="q"></div>
+  <div class="ins" id="ins"></div>
   <div id="ans">
   <button class="reveal hide" id="reveal" onclick="setHidden(false)" data-i="show"></button>
   <div class="opts" id="opts"></div>
@@ -171,6 +192,13 @@ h_tm:["Time per question","Temps par question","Tiempo por pregunta"],
 h_nq:["Questions","Questions","Preguntas"],
 colors:["Colors","Couleurs","Colores"],
 numbers:["Numbers","Nombres","Números"],
+weekdays:["Weekdays","Jours","Días"],
+ordinals:["Ordinals","Ordinaux","Ordinales"],
+qow:["How do you spell this ordinal?","Comment écrit-on cet ordinal en anglais ?","¿Cómo se escribe este ordinal en inglés?"],
+qon:["Which numeral is this?","Quel est ce nombre en chiffres ?","¿Cuál es este número en cifras?"],
+ins_ow:["Spell it out in English.","Écris-le en toutes lettres, en anglais.","Escríbelo con letras, en inglés."],
+ins_on:["Find the numeral, like 3rd.","Trouve le nombre en chiffres, comme 3rd.","Encuentra la cifra, como 3rd."],
+t_ordinals:["Match 1st, 2nd, 3rd… with the spelled-out word, both ways","Associe 1st, 2nd, 3rd… à son écriture en lettres, dans les deux sens","Asocia 1st, 2nd, 3rd… con su escritura en letras, en ambos sentidos"],
 m_choice:["Choices","Choix","Opciones"],
 m_type:["Typing","Saisie","Escribir"],
 easy:["Easy","Facile","Fácil"],medium:["Medium","Moyen","Medio"],hard:["Hard","Difficile","Difícil"],
@@ -188,6 +216,14 @@ timeup:["Time's up.","Temps écoulé.","Se acabó el tiempo."],
 answer:["Answer","Réponse","Respuesta"],
 qc:["What color is it?","Quelle est cette couleur ?","¿De qué color es?"],
 qn:["What number is it?","Quel est ce nombre ?","¿Qué número es?"],
+qwn:["What is this day in English?","Comment dit-on ce jour en anglais ?","¿Cómo se dice este día en inglés?"],
+qwa:["What day comes after this day?","Quel jour vient après ce jour ?","¿Qué día viene después de este día?"],
+qwb:["What day comes before this day?","Quel jour vient avant ce jour ?","¿Qué día viene antes de este día?"],
+ins_colors:["Name it in English.","Nomme-la en anglais.","Nómbralo en inglés."],
+ins_numbers:["Say it in English.","Dis-le en anglais.","Dilo en inglés."],
+ins_wn:["Find the English name.","Trouve le nom anglais.","Encuentra el nombre en inglés."],
+ins_wa:["Find the next day, in English.","Trouve le jour suivant, en anglais.","Encuentra el día siguiente, en inglés."],
+ins_wb:["Find the previous day, in English.","Trouve le jour précédent, en anglais.","Encuentra el día anterior, en inglés."],
 h_set:["Customize","Personnaliser","Personalizar"],
 h_hide:["Hide options","Masquer les choix","Ocultar opciones"],
 several:["Choose several","Plusieurs choix","Elegir varios"],
@@ -196,6 +232,7 @@ add:["Add","Ajouter","Añadir"],manual:["Manual selection","Sélection manuelle"
 reset:["Reset to default","Réinitialiser","Restablecer"],
 t_colors:["Name the color of a swatch or object","Nomme la couleur d'un aplat ou d'un objet","Nombra el color de una muestra u objeto"],
 t_numbers:["Match a number to its English name","Associe un nombre à son nom anglais","Asocia un número con su nombre en inglés"],
+t_weekdays:["Translate a weekday, or find the day before or after","Traduis un jour, ou trouve le jour d'avant ou d'après","Traduce un día, o encuentra el día anterior o posterior"],
 t_choice:["Pick the right answer from a list","Choisis la bonne réponse dans une liste","Elige la respuesta correcta de una lista"],
 t_type:["Type the answer yourself","Écris la réponse toi-même","Escribe la respuesta tú mismo"],
 t_easy:["4 choices, no timer by default","4 choix, sans minuteur par défaut","4 opciones, sin temporizador por defecto"],
@@ -212,17 +249,29 @@ const S={lang:"fr",ct:["colors"],gm:["choice"],hide:false,sev:{ct:false,gm:false
 let lg=1;
 const $=id=>document.getElementById(id);
 const t=k=>T[k][lg];
+const addEn=(el,en)=>{if(!lg||en===el.textContent)return;const s=document.createElement("small");s.className="en";s.textContent=en;el.appendChild(s)};
+const setT=(el,k)=>{el.textContent=t(k);if(!el.closest(".chk,.back,.add,.rng,[data-i=reset]"))addEn(el,T[k][0])};
+const WD_EN=["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
+const WD_FR=["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"];
+const WD_ES=["Lunes","Martes","Miércoles","Jueves","Viernes","Sábado","Domingo"];
 const maxQ=()=>pool().length;
 const numList=()=>manual?[...nums]:Array.from({length:rng[1]-rng[0]+1},(_,k)=>rng[0]+k);
 const pool=()=>{const p=[];
   if(S.ct.includes("colors"))cols.filter(c=>c.on).forEach(c=>{p.push({ans:c,type:"swatch"});(O[c.n]||[]).forEach(e=>p.push({ans:c,type:"object",e}))});
   if(S.ct.includes("numbers"))numList().forEach(v=>p.push({type:"num",v,ans:{n:word(v)}}));
+  if(S.ct.includes("ordinals"))for(let v=ordRng[0];v<=ordRng[1];v++){p.push({type:"ord",dir:0,v,shown:suf(v),ans:{n:ow(v)}});p.push({type:"ord",dir:1,v,shown:ow(v),ans:{n:suf(v)}})}
+  if(S.ct.includes("weekdays")){const L=S.lang==="es"?WD_ES:WD_FR;
+    WD_EN.forEach((d,k)=>{
+      p.push({type:"wd",dir:0,shown:L[k],ans:{n:d}});
+      p.push({type:"wd",dir:1,shown:d,ans:{n:WD_EN[(k+1)%7]}});
+      p.push({type:"wd",dir:-1,shown:d,ans:{n:WD_EN[(k+6)%7]}});
+    })}
   return p};
 
 function sync(){
   lg=LI[S.lang];
   document.documentElement.lang=S.lang;
-  document.querySelectorAll("[data-i]").forEach(e=>e.textContent=t(e.dataset.i));
+  document.querySelectorAll("[data-i]").forEach(e=>setT(e,e.dataset.i));
   document.querySelectorAll("[data-ph]").forEach(e=>e.placeholder=t(e.dataset.ph));$("lang").value=S.lang;$("hd").setAttribute("aria-checked",S.hide);document.querySelectorAll("[data-sev]").forEach(c=>c.checked=S.sev[c.dataset.sev]);
   document.querySelectorAll("[data-k]").forEach(g=>g.querySelectorAll("button[data-v]").forEach(b=>{
     const on=b.dataset.v===S[g.dataset.k];b.classList.toggle("on",on);b.setAttribute("aria-pressed",on);
@@ -231,15 +280,15 @@ function sync(){
     const on=S[g.dataset.multi].includes(b.dataset.v);b.classList.toggle("on",on);b.setAttribute("aria-pressed",on);
   }));
   const names=S.ct.map(c=>t(c));
-  $("title").textContent=names.join(" & ");
+  $("title").textContent=names.join(" & ");addEn($("title"),S.ct.map(c=>T[c][0]).join(" & "));
   document.title=names.join(" & ");
-  $("dfh").textContent=OPTS[S.df]+" "+t("opts");
+  $("dfh").textContent=OPTS[S.df]+" "+t("opts");addEn($("dfh"),OPTS[S.df]+" "+T.opts[0]);
   const typeOnly=S.gm.length===1&&S.gm[0]==="type";
   $("dfh").style.visibility=typeOnly?"hidden":"visible";
   $("hd").closest(".row").classList.toggle("dim",typeOnly);
   $("tm").textContent=S.tm?S.tm+" s":t("off");
   S.nq=Math.max(1,Math.min(S.nq,maxQ()));$("nqv").textContent=S.nq;
-  $("ti").placeholder=t("ph");
+  $("ti").placeholder=t("ph")+(lg&&T.ph[0]!==t("ph")?" · "+T.ph[0]:"");
 }
 document.querySelectorAll("[data-k]").forEach(g=>g.addEventListener("click",e=>{
   const b=e.target.closest("button[data-v]");if(!b)return;
@@ -260,13 +309,18 @@ function stepTm(d){S.tm=Math.min(120,Math.max(0,S.tm+d));sync()}
 const DEFC=[["red","#e53935"],["orange","#fb8c00"],["yellow","#fdd835"],["green","#2e9e4f"],["blue","#1e66d0"],["purple","#8e44ad"],["pink","#f48fb1"],["brown","#8d5a3b"],["white","#ffffff"],["black","#111111"],
 ["gray","#8e8e93"],["magenta","#f012be"],["cyan","#12d6ee"],["turquoise","#30d5c8"],["teal","#0f8b8d"],["navy","#1f2a5c"],["maroon","#7a1f1f"],["gold","#d4af37"],["silver","#c0c0c0"],["beige","#e8dcc2"],["lime","#9ede2f"],["violet","#9d5cf0"],["indigo","#3d2b8f"],["coral","#ff7f50"],["salmon","#fa8072"],["lavender","#b9a6e8"],["olive","#7d7f1f"],["peach","#ffb98a"],["burgundy","#8c1337"],["mint","#a7e8c8"]].map(a=>({n:a[0],h:a[1]}));
 const allN=()=>new Set([...Array(100).keys()]);
-let cols=DEFC.map((c,k)=>({...c,on:k<10})),nums=allN(),rng=[0,99],manual=false,stab="colors";
-try{const d=JSON.parse(localStorage.getItem("cg2")||"null");if(d){cols.forEach(c=>c.on=d.on.includes(c.n));nums=new Set(d.nums);if(Array.isArray(d.rng)&&d.rng.length===2)rng=d.rng;manual=!!d.manual}}catch(e){}
-const save=()=>{try{localStorage.setItem("cg2",JSON.stringify({on:cols.filter(c=>c.on).map(c=>c.n),nums:[...nums],rng,manual}))}catch(e){}};
+let cols=DEFC.map((c,k)=>({...c,on:k<10})),nums=allN(),rng=[0,99],ordRng=[1,99],manual=false,stab="colors";
+try{const d=JSON.parse(localStorage.getItem("cg2")||"null");if(d){cols.forEach(c=>c.on=d.on.includes(c.n));nums=new Set(d.nums);if(Array.isArray(d.rng)&&d.rng.length===2)rng=d.rng;if(Array.isArray(d.ord)&&d.ord.length===2)ordRng=d.ord;manual=!!d.manual}}catch(e){}
+const save=()=>{try{localStorage.setItem("cg2",JSON.stringify({on:cols.filter(c=>c.on).map(c=>c.n),nums:[...nums],rng,ord:ordRng,manual}))}catch(e){}};
 const O={red:["🍎","🍓","🍅","🍒"],orange:["🍊","🥕","🎃","🏀"],yellow:["🍌","🍋","⭐","🌻"],green:["🐸","🥒","🥦","🍀"],blue:["🫐","🐳","🔵","🦋"],purple:["🍇","🍆","🟣"],pink:["🎀","🐷","🌸","🦩"],brown:["🐻","🍫","🥔","🤎"],white:["⛄","🥚","🤍","🥛"],black:["🖤","⚫","🎩","🎱"],gray:["🐘","🐺","🪨","🐭"],gold:["🥇","👑","🏆","🪙"],silver:["🥈"],olive:["🫒"],peach:["🍑"]};
 const ONES=["zero","one","two","three","four","five","six","seven","eight","nine","ten","eleven","twelve","thirteen","fourteen","fifteen","sixteen","seventeen","eighteen","nineteen"];
 const TENS=["","","twenty","thirty","forty","fifty","sixty","seventy","eighty","ninety"];
 const word=n=>n<20?ONES[n]:n<100?TENS[Math.floor(n/10)]+(n%10?"-"+ONES[n%10]:""):ONES[Math.floor(n/100)]+" hundred"+(n%100?" "+word(n%100):"");
+const ORD_IRR={one:"first",two:"second",three:"third",five:"fifth",eight:"eighth",nine:"ninth",twelve:"twelfth"};
+const ow=n=>{const w=word(n),m=w.match(/^(.*?)([a-z]+)$/),h=m[1],l=m[2];
+  return h+(ORD_IRR[l]||(l.endsWith("y")?l.slice(0,-1)+"ieth":l+"th"))};
+const sfx=n=>{const r=n%100;if(r>=11&&r<=13)return"th";return["th","st","nd","rd"][n%10<4?n%10:0]};
+const suf=n=>n+sfx(n);
 const shuffle=a=>{a=a.slice();for(let k=a.length-1;k>0;k--){const j=Math.floor(Math.random()*(k+1));[a[k],a[j]]=[a[j],a[k]]}return a};
 
 let nOpts,limit,deck,i,pts,missed,cur,locked,tmr,t0;
@@ -278,6 +332,15 @@ function numOpts(v){
   const list=[...new Set(c.filter(x=>x>=0&&x<=lim&&x!==v))];
   while(list.length<nOpts){const x=v<100?Math.floor(Math.random()*100):Math.max(100,v-30)+Math.floor(Math.random()*60);if(x<=lim&&x!==v&&!list.includes(x))list.push(x)}
   return list.slice(0,nOpts-1).map(x=>({n:word(x)}));
+}
+function ordOpts(v,dir){
+  const f=dir===0?ow:suf,lim=v<100?99:999,seen=new Set([f(v)]),list=[];
+  const add=x=>{if(list.length<nOpts-1&&!seen.has(x)){seen.add(x);list.push({n:x})}};
+  if(Math.random()<.5){if(dir===0)add(word(v));else add(v+shuffle(["st","nd","rd","th"].filter(x=>x!==sfx(v)))[0])}
+  let cs=[v+1,v-1,v+10,v-10];if(v>=10&&v<100)cs.push((v%10)*10+Math.floor(v/10));
+  shuffle(cs).filter(x=>x>=1&&x<=lim).forEach(x=>add(f(x)));
+  while(list.length<nOpts-1){const x=v<100?1+Math.floor(Math.random()*99):Math.max(100,v-30)+Math.floor(Math.random()*60);if(x<=lim)add(f(x))}
+  return list;
 }
 function build(){
   let items=shuffle(pool()).slice(0,S.nq);
@@ -300,14 +363,20 @@ function start(){
   show();
 }
 function menu(){stopTimer();$("end").classList.add("hide");$("game").classList.add("hide");$("menu").classList.remove("hide")}
+function qKey(){return cur.type==="ord"?(cur.dir===0?"qow":"qon"):cur.type==="num"?"qn":cur.type==="wd"?(cur.dir===0?"qwn":cur.dir===1?"qwa":"qwb"):"qc"}
+function insKey(){return cur.type==="ord"?(cur.dir===0?"ins_ow":"ins_on"):cur.type==="num"?"ins_numbers":cur.type==="wd"?(cur.dir===0?"ins_wn":cur.dir===1?"ins_wa":"ins_wb"):"ins_colors"}
 function show(){
   cur=deck[i];locked=false;cur.miss=false;
   const st=$("stage"),isNum=cur.type==="num",m=cur.mode;
   st.classList.remove("pop");
+  st.classList.toggle("txt",cur.type==="wd"||(cur.type==="ord"&&cur.dir===1));st.style.fontSize="";
   if(cur.type==="swatch"){st.textContent="";st.style.background=cur.ans.h}
   else if(isNum){st.textContent=cur.v;st.style.background=""}
+  else if(cur.type==="wd"){st.textContent=cur.shown;st.style.background=""}
+  else if(cur.type==="ord"){st.textContent=cur.shown;st.style.background="";if(cur.dir===0&&cur.shown.length>4)st.style.fontSize="64px"}
   else{st.textContent=cur.e;st.style.background=""}
-  $("q").textContent=t(isNum?"qn":"qc");
+  setT($("q"),qKey());
+  setT($("ins"),insKey());$("ins").classList.toggle("f",!!lg);
   $("prog").textContent=(i+1)+" / "+deck.length;
   $("pf").style.width=(i/deck.length*100)+"%";
   $("score").textContent=pts;
@@ -318,7 +387,7 @@ function show(){
     od.classList.add("hide");$("reveal").classList.add("hide");
     const ti=$("ti");ti.value="";ti.className="";ti.disabled=false;ti.focus();
   }else{
-    const others=isNum?numOpts(cur.v):[...shuffle(cols.filter(c=>c.on&&c.n!==cur.ans.n)),...shuffle(cols.filter(c=>!c.on))].slice(0,nOpts-1);
+    const others=isNum?numOpts(cur.v):cur.type==="ord"?ordOpts(cur.v,cur.dir):cur.type==="wd"?shuffle(WD_EN.filter(d=>d!==cur.ans.n&&d!==cur.shown)).slice(0,nOpts-1).map(d=>({n:d})):[...shuffle(cols.filter(c=>c.on&&c.n!==cur.ans.n)),...shuffle(cols.filter(c=>!c.on))].slice(0,nOpts-1);
     shuffle([cur.ans,...others]).forEach(c=>{
       const b=document.createElement("button");
       b.className="opt";b.textContent=c.n;b.onclick=()=>pick(b,c);od.appendChild(b);
@@ -332,7 +401,8 @@ function setHidden(h){
   $("reveal").classList.toggle("hide",!h);
 }
 function markMiss(){
-  if(!cur.miss){cur.miss=true;missed.push(cur.type==="num"?cur.v+" · "+cur.ans.n:cur.ans.n)}
+  if(!cur.miss){cur.miss=true;
+    missed.push(cur.type==="ord"?cur.shown+" · "+cur.ans.n:cur.type==="num"?cur.v+" · "+cur.ans.n:cur.type==="wd"?(cur.dir===0?cur.shown+" · "+cur.ans.n:cur.dir===1?cur.shown+" → "+cur.ans.n:cur.ans.n+" → "+cur.shown):cur.ans.n)}
 }
 function won(){
   locked=true;stopTimer();
@@ -370,7 +440,7 @@ function timeout(){
   [...$("opts").children].forEach(b=>{b.disabled=true;if(b.textContent===cur.ans.n)b.classList.add("good")});
   if(cur.mode==="type")$("ti").disabled=true;
   $("reveal").classList.add("hide");
-  $("fb").textContent=t("timeup")+" "+t("answer")+" : "+cur.ans.n;
+  $("fb").textContent=t("timeup")+" "+t("answer")+" : "+cur.ans.n;addEn($("fb"),T.timeup[0]);
   setTimeout(next,2000);
 }
 function next(){
@@ -379,16 +449,19 @@ function next(){
   stopTimer();
   $("game").classList.add("hide");$("end").classList.remove("hide");
   $("final").textContent=pts+" / "+deck.length;
-  $("first").textContent=t("first");
+  setT($("first"),"first");
   const m=$("missed");m.innerHTML="";
   const u=[...new Set(missed)];
-  if(!u.length){m.textContent=t("perfect")}
+  if(!u.length){const d=document.createElement("div");setT(d,"perfect");m.appendChild(d)}
   else u.forEach(x=>{const c=document.createElement("span");c.className="chip";c.textContent=x;m.appendChild(c)});
 }
 function renderSet(){
   document.querySelectorAll("#stabs button").forEach(b=>{const on=b.dataset.tab===stab;b.classList.toggle("on",on);b.setAttribute("aria-pressed",on)});
   $("p_colors").classList.toggle("hide",stab!=="colors");
   $("p_numbers").classList.toggle("hide",stab!=="numbers");
+  $("p_ordinals").classList.toggle("hide",stab!=="ordinals");
+  $("of").value=ordRng[0];$("ot").value=ordRng[1];
+  $("ocount").textContent=(ordRng[1]-ordRng[0]+1)+" "+t("ordinals").toLowerCase();addEn($("ocount"),(ordRng[1]-ordRng[0]+1)+" "+T.ordinals[0].toLowerCase());
   const cl=$("cl");cl.innerHTML="";
   cols.forEach((c,k)=>{const b=document.createElement("button"),d=document.createElement("i");
     b.className="chip tg"+(c.on?" on":"");b.dataset.k=k;d.className="dot";d.style.background=c.h;b.append(d,c.n);
@@ -397,13 +470,20 @@ function renderSet(){
   $("rangebox").classList.toggle("hide",manual);
   $("manualbox").classList.toggle("hide",!manual);
   $("rf").value=rng[0];$("rt").value=rng[1];
-  $("rcount").textContent=(rng[1]-rng[0]+1)+" "+t("numbers").toLowerCase();
+  $("rcount").textContent=(rng[1]-rng[0]+1)+" "+t("numbers").toLowerCase();addEn($("rcount"),(rng[1]-rng[0]+1)+" "+T.numbers[0].toLowerCase());
   const nl=$("nl");nl.innerHTML="";
   if(manual)[...Array(100).keys(),...[...nums].filter(v=>v>=100).sort((a,b)=>a-b)].forEach(v=>{
     const b=document.createElement("button");b.textContent=v;b.dataset.v=v;if(nums.has(v))b.className="on";nl.appendChild(b)});
 }
 $("stabs").onclick=e=>{const b=e.target.closest("button[data-tab]");if(!b)return;stab=b.dataset.tab;renderSet()};
 $("mn").onchange=()=>{if($("mn").checked)nums=new Set(numList());manual=$("mn").checked;save();renderSet()};
+function setOrd(w){
+  const cl=v=>Math.max(1,Math.min(999,v));
+  let a=parseInt($("of").value),b=parseInt($("ot").value);
+  a=isNaN(a)?ordRng[0]:cl(a);b=isNaN(b)?ordRng[1]:cl(b);
+  if(a>b){if(w==="f")b=a;else a=b}
+  ordRng=[a,b];save();renderSet();
+}
 function setRange(w){
   const cl=v=>Math.max(0,Math.min(999,v));
   let a=parseInt($("rf").value),b=parseInt($("rt").value);
@@ -417,7 +497,7 @@ $("cl").onclick=e=>{const b=e.target.closest("button");if(!b)return;const k=+b.d
 $("nl").onclick=e=>{const b=e.target.closest("button");if(!b)return;const v=+b.dataset.v;
   if(nums.has(v)){if(nums.size>1)nums.delete(v)}else nums.add(v);save();renderSet()};
 function addNum(){const v=parseInt($("nn").value);if(!(v>=0&&v<=999))return;nums.add(v);$("nn").value="";save();renderSet()}
-function resetSet(){cols.forEach((c,k)=>c.on=k<10);nums=allN();rng=[0,99];manual=false;save();renderSet()}
+function resetSet(){cols.forEach((c,k)=>c.on=k<10);nums=allN();rng=[0,99];ordRng=[1,99];manual=false;save();renderSet()}
 function openSet(){$("menu").classList.add("hide");$("set").classList.remove("hide");renderSet()}
 function closeSet(){$("set").classList.add("hide");$("menu").classList.remove("hide");sync()}
 const tip=$("tip");
@@ -425,7 +505,7 @@ function showTip(e){
   const el=e.target.closest&&e.target.closest("[data-tip]");
   if(!el){tip.classList.add("hide");return}
   const k=el.dataset.tip,typeOnly=S.gm.length===1&&S.gm[0]==="type";
-  tip.textContent=t("t_"+k+(typeOnly&&OPTS[k]?"_t":""));tip.classList.remove("hide");
+  const tk="t_"+k+(typeOnly&&OPTS[k]?"_t":"");tip.textContent=t(tk);addEn(tip,T[tk][0]);tip.classList.remove("hide");
   const r=el.getBoundingClientRect(),w=tip.offsetWidth,h=tip.offsetHeight;
   tip.style.left=Math.max(8,Math.min(innerWidth-w-8,r.left+r.width/2-w/2))+"px";
   tip.style.top=(r.top-h-8<8?r.bottom+8:r.top-h-8)+"px";
