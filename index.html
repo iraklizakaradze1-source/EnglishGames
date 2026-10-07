@@ -64,6 +64,9 @@ select{font:inherit;color:var(--ink);background:var(--fill);border:0;border-radi
 .opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .opt{min-height:58px;padding:17px 8px;border-radius:16px;background:var(--card);box-shadow:var(--sh);font-size:1.15rem;font-weight:500;transition:transform .15s,background .2s}
 .opt:active:not(:disabled){transform:scale(.97)}
+.opt{position:relative}
+.opt .no{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:.8rem;font-weight:600;color:var(--mut);font-variant-numeric:tabular-nums}
+.opt.good .no,.opt.bad .no{color:#fff;opacity:.7}
 .opt.good{background:var(--ok);color:#fff}
 .opt.bad{background:var(--no);color:#fff;animation:shake .3s}
 #ans{min-height:var(--ans,0)}.reveal{width:100%;padding:17px;border-radius:16px;background:var(--fill);font-weight:600;font-size:1.05rem}
@@ -400,9 +403,12 @@ function show(){
     const ti=$("ti");ti.value="";ti.className="";ti.disabled=false;ti.focus();
   }else{
     const others=isNum?numOpts(cur.v):cur.type==="ord"?ordOpts(cur.v,cur.dir):cur.type==="wd"?shuffle(WD_EN.filter(d=>d!==cur.ans.n&&d!==cur.shown)).slice(0,nOpts-1).map(d=>({n:d})):[...shuffle(cols.filter(c=>c.on&&c.n!==cur.ans.n)),...shuffle(cols.filter(c=>!c.on))].slice(0,nOpts-1);
-    shuffle([cur.ans,...others]).forEach(c=>{
+    shuffle([cur.ans,...others]).forEach((c,k)=>{
       const b=document.createElement("button");
-      b.className="opt";b.textContent=c.n;b.onclick=()=>pick(b,c);od.appendChild(b);
+      b.className="opt";b.dataset.n=c.n;
+      if(cur.type==="ord"&&cur.dir===1){const no=document.createElement("span");no.className="no";no.textContent=k+1;b.append(no,c.n)}
+      else b.textContent=c.n;
+      b.onclick=()=>pick(b,c);od.appendChild(b);
     });
     setHidden(S.hide);
   }
@@ -449,7 +455,7 @@ function timeout(){
   locked=true;markMiss();
   setHidden(false);
   if(cur.mode==="type")$("opts").classList.add("hide");
-  [...$("opts").children].forEach(b=>{b.disabled=true;if(b.textContent===cur.ans.n)b.classList.add("good")});
+  [...$("opts").children].forEach(b=>{b.disabled=true;if(b.dataset.n===cur.ans.n)b.classList.add("good")});
   if(cur.mode==="type")$("ti").disabled=true;
   $("reveal").classList.add("hide");
   $("fb").textContent=t("timeup")+" "+t("answer")+" : "+cur.ans.n;addEn($("fb"),T.timeup[0]);
