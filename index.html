@@ -398,11 +398,13 @@ const yw=y=>{if(y>=2000&&y<2010)return y===2000?"two thousand":"two thousand "+w
   const h=Math.floor(y/100),l=y%100;return l===0?word(h)+" hundred":word(h)+" "+(l<10?"oh ":"")+word(l)};
 const p2=n=>String(n).padStart(2,"0");
 const two=(a,c)=>[...new Set(a)].filter(x=>x!==c).slice(0,3);
+const okYear=y=>(y>=1810&&y<=1899)||(y>=1910&&y<=1999)||(y>=2010&&y<=2099);
+const pickYear=R=>{const L=[];for(let v=1810;v<=2030;v++)if(okYear(v))L.push(v);return L[R(L.length)]};
 function genDate(){
-  const R=n=>Math.floor(Math.random()*n),y=1950+R(81),m=1+R(12),d=1+R(new Date(y,m,0).getDate());
+  const R=n=>Math.floor(Math.random()*n),y=pickYear(R),m=1+R(12),d=1+R(new Date(y,m,0).getDate());
   const dayD=two([...shuffle([d+1,d-1,d+10,d-10]).filter(x=>x>=1&&x<=28),1+R(28),1+R(28),1+R(28),1+R(28)],d).map(ow);
   const monD=two([...(d<=12&&d!==m?[d]:[]),...shuffle([...Array(12).keys()].map(k=>k+1))],m).map(k=>MO_EN[k-1]);
-  const yeaD=two([...shuffle([y+1,y-1,y+10,y-10,y+2,y-2]).filter(x=>x>=1900&&x<=2099)],y).map(yw);
+  const yeaD=two([...shuffle([y+1,y-1,y+10,y-10,y+2,y-2]).filter(okYear)],y).map(yw);
   const dd=ow(d),mm=MO_EN[m-1],yy=yw(y);
   return{type:"date",shown:p2(m)+"/"+p2(d)+"/"+y,ans:{n:mm+" "+dd+" "+yy},
     parts:[{k:"m",v:mm,x:monD},{k:"d",v:dd,x:dayD},{k:"y",v:yy,x:yeaD}]};
