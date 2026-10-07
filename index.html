@@ -420,15 +420,23 @@ function buildDrag(){
   shuffle(cur.parts.flatMap(p=>[p.v,...p.x])).forEach(v=>{
     const b=document.createElement("button");b.className="dchip";b.textContent=v;b.dataset.v=v;dp.appendChild(b);chips.push(b);
   });
-  /* pack chips row by row so none overlap */
-  let x=0,y=0,rowH=0;
-  chips.forEach(b=>{
-    const w=b.offsetWidth,h=b.offsetHeight;
-    if(x>0&&x+w>W){x=0;y+=rowH+G;rowH=0}
-    b.style.left=x+"px";b.style.top=y+"px";b.dataset.hx=x;b.dataset.hy=y;
-    x+=w+G;rowH=Math.max(rowH,h);
-  });
-  dp.style.height=(y+rowH+4)+"px";
+  /* scatter chips at random spots, rejecting any that would overlap */
+  const sz=chips.map(b=>({b,w:b.offsetWidth,h:b.offsetHeight})).sort((m,n)=>n.w*n.h-m.w*m.h);
+  let H=Math.max(220,Math.ceil(sz.reduce((a,c)=>a+(c.w+G)*(c.h+G),0)*2.4/W)),placed;
+  for(let t=0;t<60;t++){
+    placed=[];let ok=true;
+    for(const c of sz){
+      let f=false;
+      for(let k=0;k<300&&!f;k++){
+        const x=Math.random()*Math.max(0,W-c.w),y=Math.random()*Math.max(0,H-c.h);
+        if(!placed.some(q=>x<q.x+q.w+G&&x+c.w+G>q.x&&y<q.y+q.h+G&&y+c.h+G>q.y)){placed.push({...c,x,y});f=true}
+      }
+      if(!f){ok=false;break}
+    }
+    if(ok)break;H+=30;
+  }
+  placed.forEach(c=>{c.b.style.left=c.x+"px";c.b.style.top=c.y+"px";c.b.dataset.hx=c.x;c.b.dataset.hy=c.y});
+  dp.style.height=H+"px";
 }
 const slotAt=(x,y)=>[...document.querySelectorAll(".slot")].find(s=>{const r=s.getBoundingClientRect();return x>=r.left-6&&x<=r.right+6&&y>=r.top-6&&y<=r.bottom+6});
 function place(c,s){
