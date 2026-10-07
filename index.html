@@ -106,7 +106,7 @@ h1 .en{font-size:.38em;font-weight:500;margin-top:4px}
 
   <div class="group">
     <div class="row"><div class="rh"><span class="lbl" data-i="h_ct"></span><label class="chk"><input type="checkbox" data-sev="ct"><span data-i="several"></span></label></div>
-      <div class="seg" data-multi="ct"><button data-v="colors" data-i="colors" data-tip="colors"></button><button data-v="numbers" data-i="numbers" data-tip="numbers"></button><button data-v="ordinals" data-i="ordinals" data-tip="ordinals"></button><button data-v="weekdays" data-i="weekdays" data-tip="weekdays"></button></div></div>
+      <div class="seg" data-multi="ct"><button data-v="colors" data-i="colors" data-tip="colors"></button><button data-v="numbers" data-i="numbers" data-tip="numbers"></button><button data-v="ordinals" data-i="ordinals" data-tip="ordinals"></button><button data-v="weekdays" data-i="weekdays" data-tip="weekdays"></button><button data-v="months" data-i="months" data-tip="months"></button></div></div>
     <div class="row"><div class="rh"><span class="lbl" data-i="h_gm"></span><label class="chk"><input type="checkbox" data-sev="gm"><span data-i="several"></span></label></div>
       <div class="seg" data-multi="gm"><button data-v="choice" data-i="m_choice" data-tip="choice"></button><button data-v="type" data-i="m_type" data-tip="type"></button></div></div>
     <div class="row inline"><span class="lbl" data-i="h_hide"></span><button class="sw" id="hd" role="switch" aria-checked="false" data-tip="hide" aria-label="Hide options" onclick="S.hide=!S.hide;sync()"></button></div>
@@ -196,6 +196,20 @@ h_nq:["Questions","Questions","Preguntas"],
 colors:["Colors","Couleurs","Colores"],
 numbers:["Numbers","Nombres","Números"],
 weekdays:["Weekdays","Jours","Días"],
+months:["Months","Mois","Meses"],
+t_months:["Translate a month, or find the month before or after","Traduis un mois, ou trouve le mois d'avant ou d'après","Traduce un mes, o encuentra el mes anterior o posterior"],
+qmt:["What is this month in English?","Comment dit-on ce mois en anglais ?","¿Cómo se dice este mes en inglés?"],
+qma:["What month comes after this month?","Quel mois vient après ce mois ?","¿Qué mes viene después de este mes?"],
+qmb:["What month comes before this month?","Quel mois vient avant ce mois ?","¿Qué mes viene antes de este mes?"],
+qmnum:["Which month has this number?","Quel mois porte ce numéro ?","¿Qué mes tiene este número?"],
+qmnn:["What number is this month?","Quel est le numéro de ce mois ?","¿Qué número tiene este mes?"],
+qmab:["Which month is this abbreviation?","Quel mois cette abréviation désigne-t-elle ?","¿Qué mes es esta abreviatura?"],
+ins_mt:["Find the English name.","Trouve le nom anglais.","Encuentra el nombre en inglés."],
+ins_ma:["Find the next month, in English.","Trouve le mois suivant, en anglais.","Encuentra el mes siguiente, en inglés."],
+ins_mb:["Find the previous month, in English.","Trouve le mois précédent, en anglais.","Encuentra el mes anterior, en inglés."],
+ins_mnum:["January is 1. Name the month, in English.","Janvier est le 1. Nomme le mois, en anglais.","Enero es el 1. Nombra el mes, en inglés."],
+ins_mnn:["January is 1, December is 12.","Janvier est le 1, décembre est le 12.","Enero es el 1, diciembre es el 12."],
+ins_mab:["Find the full English name.","Trouve le nom anglais complet.","Encuentra el nombre completo en inglés."],
 ordinals:["Ordinals","Ordinaux","Ordinales"],
 qow:["How do you spell this ordinal?","Comment écrit-on cet ordinal en anglais ?","¿Cómo se escribe este ordinal en inglés?"],
 qon:["Which numeral is this?","Quel est ce nombre en chiffres ?","¿Cuál es este número en cifras?"],
@@ -256,6 +270,11 @@ const addEn=(el,en)=>{if(!lg||en===el.textContent)return;const s=document.create
 const setT=(el,k)=>{el.textContent=t(k);if(!el.closest(".chk,.back,.add,.rng,[data-i=reset]"))addEn(el,T[k][0])};
 const WD_EN=["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
 const WD_FR=["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"];
+const MO_EN=["January","February","March","April","May","June","July","August","September","October","November","December"];
+const MO_FR=["Janvier","Février","Mars","Avril","Mai","Juin","Juillet","Août","Septembre","Octobre","Novembre","Décembre"];
+const MO_ES=["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
+const MO_AB=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const MQ={0:"qmt",1:"qma","-1":"qmb",2:"qmnum",3:"qmnn",4:"qmab"},MI={0:"ins_mt",1:"ins_ma","-1":"ins_mb",2:"ins_mnum",3:"ins_mnn",4:"ins_mab"};
 const WD_ES=["Lunes","Martes","Miércoles","Jueves","Viernes","Sábado","Domingo"];
 const maxQ=()=>pool().length;
 const numList=()=>manual?[...nums]:Array.from({length:rng[1]-rng[0]+1},(_,k)=>rng[0]+k);
@@ -268,6 +287,12 @@ const poolBy=()=>{const P={};
       P.weekdays.push({type:"wd",dir:0,shown:L[k],ans:{n:d}});
       P.weekdays.push({type:"wd",dir:1,shown:d,ans:{n:WD_EN[(k+1)%7]}});
       P.weekdays.push({type:"wd",dir:-1,shown:d,ans:{n:WD_EN[(k+6)%7]}});
+    })}
+  if(S.ct.includes("months")){P.months=[];const L=S.lang==="es"?MO_ES:MO_FR;
+    MO_EN.forEach((m,k)=>{
+      P.months.push({type:"mo",dir:0,shown:L[k],ans:{n:m}});
+      P.months.push({type:"mo",dir:1,shown:m,ans:{n:MO_EN[(k+1)%12]}});
+      P.months.push({type:"mo",dir:-1,shown:m,ans:{n:MO_EN[(k+11)%12]}});
     })}
   return P};
 const pool=()=>Object.values(poolBy()).flat();
@@ -346,6 +371,10 @@ function ordOpts(v,dir){
   while(list.length<nOpts-1){const x=v<100?1+Math.floor(Math.random()*99):Math.max(100,v-30)+Math.floor(Math.random()*60);if(x<=lim)add(f(x))}
   return list;
 }
+function moOpts(){
+  const src=cur.dir===3?Array.from({length:12},(_,k)=>String(k+1)):MO_EN;
+  return shuffle(src.filter(x=>x!==cur.ans.n&&x!==cur.shown)).slice(0,nOpts-1).map(n=>({n}));
+}
 function build(){
   const P=poolBy(),keys=Object.keys(P),lists=keys.map(k=>shuffle(P[k])),take=keys.map(()=>0);
   // deal questions out one per topic at a time; random order so leftovers go to random topics
@@ -378,16 +407,16 @@ function start(){
   show();
 }
 function menu(){stopTimer();$("end").classList.add("hide");$("game").classList.add("hide");$("menu").classList.remove("hide")}
-function qKey(){return cur.type==="ord"?(cur.dir===0?"qow":"qon"):cur.type==="num"?"qn":cur.type==="wd"?(cur.dir===0?"qwn":cur.dir===1?"qwa":"qwb"):"qc"}
-function insKey(){return cur.type==="ord"?(cur.dir===0?"ins_ow":"ins_on"):cur.type==="num"?"ins_numbers":cur.type==="wd"?(cur.dir===0?"ins_wn":cur.dir===1?"ins_wa":"ins_wb"):"ins_colors"}
+function qKey(){return cur.type==="mo"?MQ[cur.dir]:cur.type==="ord"?(cur.dir===0?"qow":"qon"):cur.type==="num"?"qn":cur.type==="wd"?(cur.dir===0?"qwn":cur.dir===1?"qwa":"qwb"):"qc"}
+function insKey(){return cur.type==="mo"?MI[cur.dir]:cur.type==="ord"?(cur.dir===0?"ins_ow":"ins_on"):cur.type==="num"?"ins_numbers":cur.type==="wd"?(cur.dir===0?"ins_wn":cur.dir===1?"ins_wa":"ins_wb"):"ins_colors"}
 function show(){
   cur=deck[i];locked=false;cur.miss=false;
   const st=$("stage"),isNum=cur.type==="num",m=cur.mode;
   st.classList.remove("pop");
-  st.classList.toggle("txt",cur.type==="wd"||(cur.type==="ord"&&cur.dir===1));st.style.fontSize="";
+  st.classList.toggle("txt",cur.type==="wd"||(cur.type==="mo"&&cur.dir!==2)||(cur.type==="ord"&&cur.dir===1));st.style.fontSize="";
   if(cur.type==="swatch"){st.textContent="";st.style.background=cur.ans.h}
   else if(isNum){st.textContent=cur.v;st.style.background=""}
-  else if(cur.type==="wd"){st.textContent=cur.shown;st.style.background=""}
+  else if(cur.type==="wd"||cur.type==="mo"){st.textContent=cur.shown;st.style.background=""}
   else if(cur.type==="ord"){st.textContent=cur.shown;st.style.background="";if(cur.dir===0&&cur.shown.length>4)st.style.fontSize="64px"}
   else{st.textContent=cur.e;st.style.background=""}
   setT($("q"),qKey());
@@ -402,7 +431,7 @@ function show(){
     od.classList.add("hide");$("reveal").classList.add("hide");
     const ti=$("ti");ti.value="";ti.className="";ti.disabled=false;ti.focus();
   }else{
-    const others=isNum?numOpts(cur.v):cur.type==="ord"?ordOpts(cur.v,cur.dir):cur.type==="wd"?shuffle(WD_EN.filter(d=>d!==cur.ans.n&&d!==cur.shown)).slice(0,nOpts-1).map(d=>({n:d})):[...shuffle(cols.filter(c=>c.on&&c.n!==cur.ans.n)),...shuffle(cols.filter(c=>!c.on))].slice(0,nOpts-1);
+    const others=isNum?numOpts(cur.v):cur.type==="ord"?ordOpts(cur.v,cur.dir):cur.type==="mo"?moOpts():cur.type==="wd"?shuffle(WD_EN.filter(d=>d!==cur.ans.n&&d!==cur.shown)).slice(0,nOpts-1).map(d=>({n:d})):[...shuffle(cols.filter(c=>c.on&&c.n!==cur.ans.n)),...shuffle(cols.filter(c=>!c.on))].slice(0,nOpts-1);
     shuffle([cur.ans,...others]).forEach((c,k)=>{
       const b=document.createElement("button");
       b.className="opt";b.dataset.n=c.n;
@@ -420,7 +449,7 @@ function setHidden(h){
 }
 function markMiss(){
   if(!cur.miss){cur.miss=true;
-    missed.push(cur.type==="ord"?cur.shown+" · "+cur.ans.n:cur.type==="num"?cur.v+" · "+cur.ans.n:cur.type==="wd"?(cur.dir===0?cur.shown+" · "+cur.ans.n:cur.dir===1?cur.shown+" → "+cur.ans.n:cur.ans.n+" → "+cur.shown):cur.ans.n)}
+    missed.push(cur.type==="mo"?(cur.dir===1?cur.shown+" → "+cur.ans.n:cur.dir===-1?cur.ans.n+" → "+cur.shown:cur.shown+" · "+cur.ans.n):cur.type==="ord"?cur.shown+" · "+cur.ans.n:cur.type==="num"?cur.v+" · "+cur.ans.n:cur.type==="wd"?(cur.dir===0?cur.shown+" · "+cur.ans.n:cur.dir===1?cur.shown+" → "+cur.ans.n:cur.ans.n+" → "+cur.shown):cur.ans.n)}
 }
 function won(){
   locked=true;stopTimer();
