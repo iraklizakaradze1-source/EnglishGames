@@ -100,7 +100,7 @@ h1 .en{font-size:.38em;font-weight:500;margin-top:4px}
 .slot.over{border-color:var(--acc);background:color-mix(in srgb,var(--acc) 18%,var(--fill))}
 .slot.filled{border:2px solid var(--ok);background:var(--ok);color:#fff}
 .slot.bad{border-color:var(--no);animation:shake .3s}
-.dpool{position:relative;height:310px;margin-top:14px}
+.dpool{position:relative;min-height:60px;margin-top:14px}
 .dchip{position:absolute;touch-action:none;user-select:none;-webkit-user-select:none;padding:10px 13px;border-radius:14px;background:var(--card);box-shadow:var(--sh),inset 0 0 0 1px var(--line);font-size:.9rem;font-weight:500;white-space:nowrap;cursor:grab;transition:left .25s,top .25s,transform .15s}
 .dchip.drag{transition:none;z-index:20;cursor:grabbing;transform:scale(1.06);box-shadow:0 10px 30px rgba(0,0,0,.25)}
 .dchip.sel{outline:2px solid var(--acc)}
@@ -109,6 +109,12 @@ h1 .en{font-size:.38em;font-weight:500;margin-top:4px}
 .fcnav{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px}
 .fcnav+.secondary{margin-top:10px}
 #fc .seg{margin-bottom:6px}
+#menu .group{background:none;box-shadow:none;border-radius:0;overflow:visible;display:flex;flex-direction:column;gap:12px}
+#menu .row{background:var(--card);border-radius:18px;box-shadow:var(--sh),inset 0 0 0 1px var(--line);padding:16px}
+#menu .row+.row{border-top:0}
+#menu .row>.lbl,#menu .rh .lbl{font-size:.75rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+#menu .row.inline>.lbl{font-size:1rem;font-weight:500;letter-spacing:0;text-transform:none}
+#menu .rh{margin-bottom:12px}
 </style>
 </head>
 <body>
@@ -410,13 +416,19 @@ function buildDrag(){
   filled=0;sel=null;dg=null;
   const sl=$("slots"),dp=$("dpool");sl.innerHTML="";dp.innerHTML="";
   cur.parts.forEach(p=>{const s=document.createElement("div");s.className="slot";s.dataset.v=p.v;s.textContent=t("sl_"+p.k);s.onclick=()=>{if(sel)place(sel,s)};sl.appendChild(s)});
-  const W=dp.clientWidth||440,H=310,cw=W/3,rh=H/5,cells=shuffle([...Array(15).keys()]);
-  shuffle(cur.parts.flatMap(p=>[p.v,...p.x].map(v=>({v})))).forEach((c,n)=>{
-    const b=document.createElement("button");b.className="dchip";b.textContent=c.v;b.dataset.v=c.v;dp.appendChild(b);
-    const cell=cells[n],w=b.offsetWidth,h=b.offsetHeight;
-    const x=Math.max(0,Math.min(W-w,(cell%3)*cw+Math.random()*cw*.3)),y=Math.max(0,Math.min(H-h,Math.floor(cell/3)*rh+Math.random()*Math.max(0,rh-h)));
-    b.style.left=x+"px";b.style.top=y+"px";b.dataset.hx=x;b.dataset.hy=y;
+  const W=dp.clientWidth||440,G=8,chips=[];
+  shuffle(cur.parts.flatMap(p=>[p.v,...p.x])).forEach(v=>{
+    const b=document.createElement("button");b.className="dchip";b.textContent=v;b.dataset.v=v;dp.appendChild(b);chips.push(b);
   });
+  /* pack chips row by row so none overlap */
+  let x=0,y=0,rowH=0;
+  chips.forEach(b=>{
+    const w=b.offsetWidth,h=b.offsetHeight;
+    if(x>0&&x+w>W){x=0;y+=rowH+G;rowH=0}
+    b.style.left=x+"px";b.style.top=y+"px";b.dataset.hx=x;b.dataset.hy=y;
+    x+=w+G;rowH=Math.max(rowH,h);
+  });
+  dp.style.height=(y+rowH+4)+"px";
 }
 const slotAt=(x,y)=>[...document.querySelectorAll(".slot")].find(s=>{const r=s.getBoundingClientRect();return x>=r.left-6&&x<=r.right+6&&y>=r.top-6&&y<=r.bottom+6});
 function place(c,s){
