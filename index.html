@@ -26,7 +26,7 @@ select{font:inherit;color:var(--ink);background:var(--fill);border:0;border-radi
 .chips{display:flex;flex-wrap:wrap;gap:6px}.chip.tg.on{background:var(--acc);color:#fff}.chip.tg{border:0;display:inline-flex;align-items:center;gap:6px;cursor:pointer;background:var(--fill);box-shadow:none;padding:6px 12px;font-size:.85rem}
 .dot{width:12px;height:12px;border-radius:50%;box-shadow:inset 0 0 0 1px var(--line)}
 .ng{display:grid;grid-template-columns:repeat(10,1fr);gap:4px}.ng button{padding:7px 0;border-radius:8px;background:var(--fill);font-size:.75rem;font-variant-numeric:tabular-nums}
-.seg[data-multi=ct] button{padding:7px 4px;font-size:.85rem}.tabs{margin-bottom:16px}.tabs button{padding:8px 12px}.pick{cursor:pointer}.cb{width:22px;height:22px;margin:0;accent-color:var(--acc);cursor:pointer}
+.seg[data-multi=ct]{flex-wrap:wrap}.seg[data-multi=ct] button{flex:1 1 30%;padding:7px 4px;font-size:.85rem}.tabs{margin-bottom:16px}.tabs button{padding:8px 12px}.pick{cursor:pointer}.cb{width:22px;height:22px;margin:0;accent-color:var(--acc);cursor:pointer}
 .rng{display:grid;grid-template-columns:1fr 1fr;gap:12px}.num{display:block;width:100%;box-sizing:border-box;border:0;border-radius:10px;background:var(--fill);padding:11px 10px;font-size:1.05rem;font-weight:600;text-align:center;font-variant-numeric:tabular-nums;-moz-appearance:textfield}.num::-webkit-inner-spin-button,.num::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
 .add{display:flex;gap:8px;margin-top:12px}.add input{min-width:0;flex:1;border:0;border-radius:10px;background:var(--fill);padding:8px 10px;font-size:.95rem}.add button{background:var(--acc);color:#fff;border-radius:10px;padding:0 16px;font-weight:600}
 .lang{display:flex;align-items:center;gap:6px;background:var(--fill);border-radius:10px;padding:0 6px 0 10px}.lang select{appearance:none;-webkit-appearance:none;background:transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none' stroke='%2386868b' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1 1l4 4 4-4'/%3E%3C/svg%3E") no-repeat right 6px center;padding:8px 22px 8px 2px;font-size:.9rem;font-weight:500;cursor:pointer}.lang select option{color:#1d1d1f}
@@ -95,6 +95,20 @@ h1 .en{font-size:.38em;font-weight:500;margin-top:4px}
 .ins .en{font-size:.88em;margin-top:2px}
 .ins.f{min-height:2.8em}
 #tip .en{color:#a1a1a6;margin-top:3px;font-size:.9em}
+.slots{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.slot{min-height:58px;box-sizing:border-box;border-radius:14px;border:2px dashed color-mix(in srgb,var(--mut) 55%,transparent);background:var(--fill);display:flex;align-items:center;justify-content:center;text-align:center;padding:4px 6px;font-size:.85rem;font-weight:600;line-height:1.15;color:var(--mut);transition:background .15s,border-color .15s}
+.slot.over{border-color:var(--acc);background:color-mix(in srgb,var(--acc) 18%,var(--fill))}
+.slot.filled{border:2px solid var(--ok);background:var(--ok);color:#fff}
+.slot.bad{border-color:var(--no);animation:shake .3s}
+.dpool{position:relative;height:310px;margin-top:14px}
+.dchip{position:absolute;touch-action:none;user-select:none;-webkit-user-select:none;padding:10px 13px;border-radius:14px;background:var(--card);box-shadow:var(--sh),inset 0 0 0 1px var(--line);font-size:.9rem;font-weight:500;white-space:nowrap;cursor:grab;transition:left .25s,top .25s,transform .15s}
+.dchip.drag{transition:none;z-index:20;cursor:grabbing;transform:scale(1.06);box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.dchip.sel{outline:2px solid var(--acc)}
+.fcard{display:flex;flex-direction:column;width:100%;box-sizing:border-box;color:var(--ink);padding:0 16px;line-height:1.2}
+.fcard .en{margin-top:10px}
+.fcnav{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px}
+.fcnav+.secondary{margin-top:10px}
+#fc .seg{margin-bottom:6px}
 </style>
 </head>
 <body>
@@ -106,7 +120,7 @@ h1 .en{font-size:.38em;font-weight:500;margin-top:4px}
 
   <div class="group">
     <div class="row"><div class="rh"><span class="lbl" data-i="h_ct"></span><label class="chk"><input type="checkbox" data-sev="ct"><span data-i="several"></span></label></div>
-      <div class="seg" data-multi="ct"><button data-v="colors" data-i="colors" data-tip="colors"></button><button data-v="numbers" data-i="numbers" data-tip="numbers"></button><button data-v="ordinals" data-i="ordinals" data-tip="ordinals"></button><button data-v="weekdays" data-i="weekdays" data-tip="weekdays"></button><button data-v="months" data-i="months" data-tip="months"></button></div></div>
+      <div class="seg" data-multi="ct"><button data-v="colors" data-i="colors" data-tip="colors"></button><button data-v="numbers" data-i="numbers" data-tip="numbers"></button><button data-v="ordinals" data-i="ordinals" data-tip="ordinals"></button><button data-v="weekdays" data-i="weekdays" data-tip="weekdays"></button><button data-v="months" data-i="months" data-tip="months"></button><button data-v="dates" data-i="dates" data-tip="dates"></button></div></div>
     <div class="row"><div class="rh"><span class="lbl" data-i="h_gm"></span><label class="chk"><input type="checkbox" data-sev="gm"><span data-i="several"></span></label></div>
       <div class="seg" data-multi="gm"><button data-v="choice" data-i="m_choice" data-tip="choice"></button><button data-v="type" data-i="m_type" data-tip="type"></button></div></div>
     <div class="row inline"><span class="lbl" data-i="h_hide"></span><button class="sw" id="hd" role="switch" aria-checked="false" data-tip="hide" aria-label="Hide options" onclick="S.hide=!S.hide;sync()"></button></div>
@@ -120,6 +134,7 @@ h1 .en{font-size:.38em;font-weight:500;margin-top:4px}
   </div>
 
   <button class="primary" id="startbtn" onclick="start()"><span data-i="start"></span></button>
+  <button class="secondary" id="fcbtn" style="margin-top:10px" onclick="openFc()"><span data-i="fc"></span></button>
 </div>
 
 <div id="set" class="hide">
@@ -170,8 +185,19 @@ h1 .en{font-size:.38em;font-weight:500;margin-top:4px}
     <input id="ti" autocomplete="off" autocapitalize="off" spellcheck="false" onkeydown="if(event.key==='Enter')check()">
     <button class="primary go" onclick="check()" data-i="check"></button>
   </div>
+  <div id="dragbox" class="hide"><div class="slots" id="slots"></div><div class="dpool" id="dpool"></div></div>
   </div>
   <div id="fb"></div>
+</div>
+
+<div id="fc" class="hide">
+  <div class="bar"><button class="back" onclick="closeFc()">‹ <span data-i="menu"></span></button><span id="fcn"></span></div>
+  <h1 data-i="fc"></h1>
+  <div class="seg"><button id="fcd0" onclick="fcSetDir(0)">English → Français</button><button id="fcd1" onclick="fcSetDir(1)">Français → English</button></div>
+  <button class="stage txt fcard" id="fcard" onclick="fcFlip()" aria-live="polite"></button>
+  <div class="ins" data-i="fc_tap"></div>
+  <div class="fcnav"><button class="secondary" onclick="fcMove(-1)" aria-label="Previous">‹</button><button class="primary" onclick="fcMove(1)" aria-label="Next">›</button></div>
+  <button class="secondary" onclick="fcShuffle()" data-i="shuf"></button>
 </div>
 
 <div id="end" class="hide endwrap">
@@ -188,6 +214,9 @@ h1 .en{font-size:.38em;font-weight:500;margin-top:4px}
 
 <script>
 const T={
+fc:["Flashcards","Cartes mémoire","Tarjetas"],
+fc_tap:["Tap the card to flip it","Touche la carte pour la retourner","Toca la tarjeta para girarla"],
+shuf:["Shuffle","Mélanger","Mezclar"],
 h_ct:["Practice","S'entraîner","Practicar"],
 h_gm:["Mode","Mode","Modo"],
 h_df:["Level","Niveau","Nivel"],
@@ -197,6 +226,11 @@ colors:["Colors","Couleurs","Colores"],
 numbers:["Numbers","Nombres","Números"],
 weekdays:["Weekdays","Jours","Días"],
 months:["Months","Mois","Meses"],
+dates:["Dates","Dates","Fechas"],
+t_dates:["Say a full date: drag the day, month and year into place","Dis une date complète : glisse le jour, le mois et l'année à leur place","Di una fecha completa: arrastra el día, el mes y el año a su sitio"],
+qd:["How do you say this date?","Comment dit-on cette date en anglais ?","¿Cómo se dice esta fecha en inglés?"],
+ins_d:["Month / day / year. Drag each piece into its box.","Mois / jour / année. Glisse chaque morceau dans sa case.","Mes / día / año. Arrastra cada pieza a su casilla."],
+sl_d:["day","jour","día"],sl_m:["month","mois","mes"],sl_y:["year","année","año"],
 t_months:["Translate a month, or find the month before or after","Traduis un mois, ou trouve le mois d'avant ou d'après","Traduce un mes, o encuentra el mes anterior o posterior"],
 qmt:["What is this month in English?","Comment dit-on ce mois en anglais ?","¿Cómo se dice este mes en inglés?"],
 qma:["What month comes after this month?","Quel mois vient après ce mois ?","¿Qué mes viene después de este mes?"],
@@ -294,6 +328,7 @@ const poolBy=()=>{const P={};
       P.months.push({type:"mo",dir:1,shown:m,ans:{n:MO_EN[(k+1)%12]}});
       P.months.push({type:"mo",dir:-1,shown:m,ans:{n:MO_EN[(k+11)%12]}});
     })}
+  if(S.ct.includes("dates"))P.dates=Array.from({length:40},genDate);
   return P};
 const pool=()=>Object.values(poolBy()).flat();
 
@@ -352,7 +387,72 @@ const sfx=n=>{const r=n%100;if(r>=11&&r<=13)return"th";return["th","st","nd","rd
 const suf=n=>n+sfx(n);
 const shuffle=a=>{a=a.slice();for(let k=a.length-1;k>0;k--){const j=Math.floor(Math.random()*(k+1));[a[k],a[j]]=[a[j],a[k]]}return a};
 
+/* ---- dates ---- */
+const yw=y=>{if(y>=2000&&y<2010)return y===2000?"two thousand":"two thousand "+word(y-2000);
+  const h=Math.floor(y/100),l=y%100;return l===0?word(h)+" hundred":word(h)+" "+(l<10?"oh ":"")+word(l)};
+const p2=n=>String(n).padStart(2,"0");
+const two=(a,c)=>[...new Set(a)].filter(x=>x!==c).slice(0,3);
+function genDate(){
+  const R=n=>Math.floor(Math.random()*n),y=1950+R(81),m=1+R(12),d=1+R(new Date(y,m,0).getDate());
+  const dayD=two([...shuffle([d+1,d-1,d+10,d-10]).filter(x=>x>=1&&x<=28),1+R(28),1+R(28),1+R(28),1+R(28)],d).map(ow);
+  const monD=two([...(d<=12&&d!==m?[d]:[]),...shuffle([...Array(12).keys()].map(k=>k+1))],m).map(k=>MO_EN[k-1]);
+  const yeaD=two([...shuffle([y+1,y-1,y+10,y-10,y+2,y-2]).filter(x=>x>=1900&&x<=2099)],y).map(yw);
+  const dd=ow(d),mm=MO_EN[m-1],yy=yw(y);
+  return{type:"date",shown:p2(m)+"/"+p2(d)+"/"+y,ans:{n:mm+" "+dd+" "+yy},
+    parts:[{k:"m",v:mm,x:monD},{k:"d",v:dd,x:dayD},{k:"y",v:yy,x:yeaD}]};
+}
+
 let nOpts,limit,deck,i,pts,missed,cur,locked,tmr,t0;
+
+/* ---- drag & drop for dates ---- */
+let sel=null,filled=0,dg=null;
+function buildDrag(){
+  filled=0;sel=null;dg=null;
+  const sl=$("slots"),dp=$("dpool");sl.innerHTML="";dp.innerHTML="";
+  cur.parts.forEach(p=>{const s=document.createElement("div");s.className="slot";s.dataset.v=p.v;s.textContent=t("sl_"+p.k);s.onclick=()=>{if(sel)place(sel,s)};sl.appendChild(s)});
+  const W=dp.clientWidth||440,H=310,cw=W/3,rh=H/5,cells=shuffle([...Array(15).keys()]);
+  shuffle(cur.parts.flatMap(p=>[p.v,...p.x].map(v=>({v})))).forEach((c,n)=>{
+    const b=document.createElement("button");b.className="dchip";b.textContent=c.v;b.dataset.v=c.v;dp.appendChild(b);
+    const cell=cells[n],w=b.offsetWidth,h=b.offsetHeight;
+    const x=Math.max(0,Math.min(W-w,(cell%3)*cw+Math.random()*cw*.3)),y=Math.max(0,Math.min(H-h,Math.floor(cell/3)*rh+Math.random()*Math.max(0,rh-h)));
+    b.style.left=x+"px";b.style.top=y+"px";b.dataset.hx=x;b.dataset.hy=y;
+  });
+}
+const slotAt=(x,y)=>[...document.querySelectorAll(".slot")].find(s=>{const r=s.getBoundingClientRect();return x>=r.left-6&&x<=r.right+6&&y>=r.top-6&&y<=r.bottom+6});
+function place(c,s){
+  if(locked||s.classList.contains("filled"))return false;
+  if(c.dataset.v===s.dataset.v){
+    s.textContent=c.dataset.v;s.classList.add("filled");c.remove();sel=null;
+    if(++filled===3){const a=cur.ans.n;$("fb").textContent=a.charAt(0).toUpperCase()+a.slice(1);won()}
+    return true}
+  s.classList.remove("bad");void s.offsetWidth;s.classList.add("bad");setTimeout(()=>s.classList.remove("bad"),400);
+  markMiss();return false;
+}
+const dpEl=$("dpool");
+dpEl.addEventListener("pointerdown",e=>{
+  const c=e.target.closest(".dchip");if(!c||locked)return;
+  const r=c.getBoundingClientRect();
+  dg={c,ox:e.clientX-r.left,oy:e.clientY-r.top,sx:e.clientX,sy:e.clientY,moved:false};
+  c.setPointerCapture(e.pointerId);c.classList.add("drag");
+});
+dpEl.addEventListener("pointermove",e=>{
+  if(!dg)return;
+  if(Math.hypot(e.clientX-dg.sx,e.clientY-dg.sy)>6)dg.moved=true;
+  if(!dg.moved)return;
+  const pr=dpEl.getBoundingClientRect();
+  dg.c.style.left=(e.clientX-pr.left-dg.ox)+"px";dg.c.style.top=(e.clientY-pr.top-dg.oy)+"px";
+  const h=slotAt(e.clientX,e.clientY);
+  document.querySelectorAll(".slot").forEach(s=>s.classList.toggle("over",s===h&&!s.classList.contains("filled")));
+});
+const dgEnd=e=>{
+  if(!dg)return;
+  const{c,moved}=dg;dg=null;c.classList.remove("drag");
+  document.querySelectorAll(".slot.over").forEach(s=>s.classList.remove("over"));
+  if(!moved){sel=sel===c?null:c;document.querySelectorAll(".dchip").forEach(x=>x.classList.toggle("sel",x===sel));return}
+  const s=e.type==="pointerup"?slotAt(e.clientX,e.clientY):null;
+  if(!(s&&place(c,s))&&c.isConnected){c.style.left=c.dataset.hx+"px";c.style.top=c.dataset.hy+"px"}
+};
+dpEl.addEventListener("pointerup",dgEnd);dpEl.addEventListener("pointercancel",dgEnd);
 
 function numOpts(v){
   const lim=v<100?99:999,R=()=>Math.floor(Math.random()*10);let c=[v+10,v-10,v+1,v-1];
@@ -394,29 +494,29 @@ function build(){
   }
   // balance game modes too (choice / typing) instead of a coin flip per question
   const modes=shuffle(items.map((_,k)=>S.gm[k%S.gm.length]));
-  items.forEach((x,k)=>x.mode=modes[k]);
+  items.forEach((x,k)=>x.mode=x.type==="date"?"drag":modes[k]);
   return items;
 }
 
 function start(){
   nOpts=OPTS[S.df];limit=S.tm;
   const rows=Math.ceil(nOpts/2);
-  $("ans").style.setProperty("--ans",Math.max(S.gm.includes("choice")?rows*68-10:0,S.gm.includes("type")?132:0)+"px");
+  $("ans").style.setProperty("--ans",Math.max(S.gm.includes("choice")?rows*68-10:0,S.gm.includes("type")?132:0,S.ct.includes("dates")?400:0)+"px");
   deck=build();i=0;pts=0;missed=[];
   $("menu").classList.add("hide");$("end").classList.add("hide");$("game").classList.remove("hide");
   show();
 }
 function menu(){stopTimer();$("end").classList.add("hide");$("game").classList.add("hide");$("menu").classList.remove("hide")}
-function qKey(){return cur.type==="mo"?MQ[cur.dir]:cur.type==="ord"?(cur.dir===0?"qow":"qon"):cur.type==="num"?"qn":cur.type==="wd"?(cur.dir===0?"qwn":cur.dir===1?"qwa":"qwb"):"qc"}
-function insKey(){return cur.type==="mo"?MI[cur.dir]:cur.type==="ord"?(cur.dir===0?"ins_ow":"ins_on"):cur.type==="num"?"ins_numbers":cur.type==="wd"?(cur.dir===0?"ins_wn":cur.dir===1?"ins_wa":"ins_wb"):"ins_colors"}
+function qKey(){return cur.type==="date"?"qd":cur.type==="mo"?MQ[cur.dir]:cur.type==="ord"?(cur.dir===0?"qow":"qon"):cur.type==="num"?"qn":cur.type==="wd"?(cur.dir===0?"qwn":cur.dir===1?"qwa":"qwb"):"qc"}
+function insKey(){return cur.type==="date"?"ins_d":cur.type==="mo"?MI[cur.dir]:cur.type==="ord"?(cur.dir===0?"ins_ow":"ins_on"):cur.type==="num"?"ins_numbers":cur.type==="wd"?(cur.dir===0?"ins_wn":cur.dir===1?"ins_wa":"ins_wb"):"ins_colors"}
 function show(){
   cur=deck[i];locked=false;cur.miss=false;
   const st=$("stage"),isNum=cur.type==="num",m=cur.mode;
-  st.classList.remove("pop");
-  st.classList.toggle("txt",cur.type==="wd"||(cur.type==="mo"&&cur.dir!==2)||(cur.type==="ord"&&cur.dir===1));st.style.fontSize="";
+  st.classList.remove("pop");st.style.height=cur.type==="date"?"130px":"";
+  st.classList.toggle("txt",cur.type==="date"||cur.type==="wd"||(cur.type==="mo"&&cur.dir!==2)||(cur.type==="ord"&&cur.dir===1));st.style.fontSize="";
   if(cur.type==="swatch"){st.textContent="";st.style.background=cur.ans.h}
   else if(isNum){st.textContent=cur.v;st.style.background=""}
-  else if(cur.type==="wd"||cur.type==="mo"){st.textContent=cur.shown;st.style.background=""}
+  else if(cur.type==="wd"||cur.type==="mo"||cur.type==="date"){st.textContent=cur.shown;st.style.background=""}
   else if(cur.type==="ord"){st.textContent=cur.shown;st.style.background="";if(cur.dir===0&&cur.shown.length>4)st.style.fontSize="64px"}
   else{st.textContent=cur.e;st.style.background=""}
   setT($("q"),qKey());
@@ -427,7 +527,10 @@ function show(){
   $("fb").textContent="";
   const od=$("opts");od.innerHTML="";
   $("typebox").classList.toggle("hide",m!=="type");
-  if(m==="type"){
+  $("dragbox").classList.toggle("hide",m!=="drag");
+  if(m==="drag"){
+    od.classList.add("hide");$("reveal").classList.add("hide");buildDrag();
+  }else if(m==="type"){
     od.classList.add("hide");$("reveal").classList.add("hide");
     const ti=$("ti");ti.value="";ti.className="";ti.disabled=false;ti.focus();
   }else{
@@ -449,14 +552,14 @@ function setHidden(h){
 }
 function markMiss(){
   if(!cur.miss){cur.miss=true;
-    missed.push(cur.type==="mo"?(cur.dir===1?cur.shown+" → "+cur.ans.n:cur.dir===-1?cur.ans.n+" → "+cur.shown:cur.shown+" · "+cur.ans.n):cur.type==="ord"?cur.shown+" · "+cur.ans.n:cur.type==="num"?cur.v+" · "+cur.ans.n:cur.type==="wd"?(cur.dir===0?cur.shown+" · "+cur.ans.n:cur.dir===1?cur.shown+" → "+cur.ans.n:cur.ans.n+" → "+cur.shown):cur.ans.n)}
+    missed.push(cur.type==="date"?cur.shown+" · "+cur.ans.n:cur.type==="mo"?(cur.dir===1?cur.shown+" → "+cur.ans.n:cur.dir===-1?cur.ans.n+" → "+cur.shown:cur.shown+" · "+cur.ans.n):cur.type==="ord"?cur.shown+" · "+cur.ans.n:cur.type==="num"?cur.v+" · "+cur.ans.n:cur.type==="wd"?(cur.dir===0?cur.shown+" · "+cur.ans.n:cur.dir===1?cur.shown+" → "+cur.ans.n:cur.ans.n+" → "+cur.shown):cur.ans.n)}
 }
 function won(){
   locked=true;stopTimer();
   if(!cur.miss)pts++;
   $("score").textContent=pts;
   $("stage").classList.add("pop");
-  setTimeout(next,1000);
+  setTimeout(next,cur.type==="date"?1800:1000);
 }
 function pick(b,c){
   if(locked)return;
@@ -483,12 +586,12 @@ function timeout(){
   if(locked)return;
   locked=true;markMiss();
   setHidden(false);
-  if(cur.mode==="type")$("opts").classList.add("hide");
+  if(cur.mode==="type"||cur.mode==="drag")$("opts").classList.add("hide");
   [...$("opts").children].forEach(b=>{b.disabled=true;if(b.dataset.n===cur.ans.n)b.classList.add("good")});
   if(cur.mode==="type")$("ti").disabled=true;
   $("reveal").classList.add("hide");
   $("fb").textContent=t("timeup")+" "+t("answer")+" : "+cur.ans.n;addEn($("fb"),T.timeup[0]);
-  setTimeout(next,2000);
+  setTimeout(next,cur.mode==="drag"?3500:2000);
 }
 function next(){
   i++;
@@ -560,6 +663,27 @@ function showTip(e){
 document.addEventListener("mouseover",showTip);document.addEventListener("focusin",showTip);
 document.addEventListener("mousedown",()=>tip.classList.add("hide"));
 sync();
+
+const FC=[["today","aujourd'hui","hoy"],["day","jour","día"],["week","semaine","semana"],["month","mois","mes"],["year","an / année","año"],["weeks","semaines","semanas"],["days","jours","días"],["teacher","professeur / enseignant(e)","profesor(a) / maestro(a)"],["welcome","bienvenue","bienvenido(a)"],["How are you?","Comment allez-vous ? / Ça va ?","¿Cómo estás? / ¿Cómo está usted?"],["I'm fine, thank you.","Je vais bien, merci.","Estoy bien, gracias."],["thank you","merci","gracias"],["goodbye","au revoir","adiós"]];
+const FCN=["English","Français","Español"];
+let fcDeck=FC.slice(),fcI=0,fcBack=false,fcDir=0;
+const fcNat=()=>S.lang==="es"?2:1;
+function fcShow(){
+  const p=fcDeck[fcI],n=fcNat(),side=fcBack?(fcDir?0:n):(fcDir?n:0),el=$("fcard");
+  el.textContent="";
+  const w=document.createElement("span");w.textContent=p[side];el.appendChild(w);
+  const l=document.createElement("small");l.className="en";l.textContent=FCN[side];el.appendChild(l);
+  $("fcn").textContent=(fcI+1)+" / "+fcDeck.length;
+  $("fcd0").textContent="English → "+FCN[n];$("fcd1").textContent=FCN[n]+" → English";
+  $("fcd0").classList.toggle("on",!fcDir);$("fcd1").classList.toggle("on",!!fcDir);
+}
+function fcFlip(){fcBack=!fcBack;fcShow();const c=$("fcard");c.classList.remove("pop");void c.offsetWidth;c.classList.add("pop")}
+function fcMove(d){fcI=(fcI+d+fcDeck.length)%fcDeck.length;fcBack=false;fcShow()}
+function fcSetDir(d){fcDir=d;fcBack=false;fcShow()}
+function fcShuffle(){fcDeck=shuffle(FC);fcI=0;fcBack=false;fcShow()}
+function openFc(){$("menu").classList.add("hide");$("fc").classList.remove("hide");sync();fcShow()}
+function closeFc(){$("fc").classList.add("hide");$("menu").classList.remove("hide");sync()}
+document.addEventListener("keydown",e=>{if($("fc").classList.contains("hide"))return;if(e.key==="ArrowRight")fcMove(1);else if(e.key==="ArrowLeft")fcMove(-1)});
 </script>
 </body>
 </html>
