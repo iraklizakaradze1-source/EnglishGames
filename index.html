@@ -256,17 +256,18 @@ const WD_FR=["Lundi","Mardi","Mercredi","Jeudi","Vendredi","Samedi","Dimanche"];
 const WD_ES=["Lunes","Martes","Miércoles","Jueves","Viernes","Sábado","Domingo"];
 const maxQ=()=>pool().length;
 const numList=()=>manual?[...nums]:Array.from({length:rng[1]-rng[0]+1},(_,k)=>rng[0]+k);
-const pool=()=>{const p=[];
-  if(S.ct.includes("colors"))cols.filter(c=>c.on).forEach(c=>{p.push({ans:c,type:"swatch"});(O[c.n]||[]).forEach(e=>p.push({ans:c,type:"object",e}))});
-  if(S.ct.includes("numbers"))numList().forEach(v=>p.push({type:"num",v,ans:{n:word(v)}}));
-  if(S.ct.includes("ordinals"))for(let v=ordRng[0];v<=ordRng[1];v++){p.push({type:"ord",dir:0,v,shown:suf(v),ans:{n:ow(v)}});p.push({type:"ord",dir:1,v,shown:ow(v),ans:{n:suf(v)}})}
-  if(S.ct.includes("weekdays")){const L=S.lang==="es"?WD_ES:WD_FR;
+const poolBy=()=>{const P={};
+  if(S.ct.includes("colors")){P.colors=[];cols.filter(c=>c.on).forEach(c=>{P.colors.push({ans:c,type:"swatch"});(O[c.n]||[]).forEach(e=>P.colors.push({ans:c,type:"object",e}))})}
+  if(S.ct.includes("numbers"))P.numbers=numList().map(v=>({type:"num",v,ans:{n:word(v)}}));
+  if(S.ct.includes("ordinals")){P.ordinals=[];for(let v=ordRng[0];v<=ordRng[1];v++){P.ordinals.push({type:"ord",dir:0,v,shown:suf(v),ans:{n:ow(v)}});P.ordinals.push({type:"ord",dir:1,v,shown:ow(v),ans:{n:suf(v)}})}}
+  if(S.ct.includes("weekdays")){P.weekdays=[];const L=S.lang==="es"?WD_ES:WD_FR;
     WD_EN.forEach((d,k)=>{
-      p.push({type:"wd",dir:0,shown:L[k],ans:{n:d}});
-      p.push({type:"wd",dir:1,shown:d,ans:{n:WD_EN[(k+1)%7]}});
-      p.push({type:"wd",dir:-1,shown:d,ans:{n:WD_EN[(k+6)%7]}});
+      P.weekdays.push({type:"wd",dir:0,shown:L[k],ans:{n:d}});
+      P.weekdays.push({type:"wd",dir:1,shown:d,ans:{n:WD_EN[(k+1)%7]}});
+      P.weekdays.push({type:"wd",dir:-1,shown:d,ans:{n:WD_EN[(k+6)%7]}});
     })}
-  return p};
+  return P};
+const pool=()=>Object.values(poolBy()).flat();
 
 function sync(){
   lg=LI[S.lang];
@@ -343,14 +344,25 @@ function ordOpts(v,dir){
   return list;
 }
 function build(){
-  let items=shuffle(pool()).slice(0,S.nq);
+  const P=poolBy(),keys=Object.keys(P),lists=keys.map(k=>shuffle(P[k])),take=keys.map(()=>0);
+  // deal questions out one per topic at a time; random order so leftovers go to random topics
+  const order=shuffle(keys.map((_,k)=>k));
+  let left=S.nq;
+  while(left>0){
+    let moved=false;
+    for(const k of order){if(left>0&&take[k]<lists[k].length){take[k]++;left--;moved=true}}
+    if(!moved)break;
+  }
+  let items=shuffle(lists.flatMap((l,k)=>l.slice(0,take[k])));
   for(let k=1;k<items.length;k++){
     if(items[k].ans.n===items[k-1].ans.n){
       const j=items.findIndex((x,m)=>m>k&&x.ans.n!==items[k-1].ans.n&&(m+1>=items.length||x.ans.n!==items[m+1].ans.n));
       if(j>0)[items[k],items[j]]=[items[j],items[k]];
     }
   }
-  items.forEach(x=>x.mode=S.gm[Math.floor(Math.random()*S.gm.length)]);
+  // balance game modes too (choice / typing) instead of a coin flip per question
+  const modes=shuffle(items.map((_,k)=>S.gm[k%S.gm.length]));
+  items.forEach((x,k)=>x.mode=modes[k]);
   return items;
 }
 
